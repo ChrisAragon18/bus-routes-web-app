@@ -1,4 +1,5 @@
 import { useLoadScript } from "@react-google-maps/api"
+import Map from "../components/Map"
 
 function Home() {
     const { isLoaded } = useLoadScript({
@@ -8,7 +9,7 @@ function Home() {
 
     if (!isLoaded) return <div>Loading...</div>
     return (
-        <div>Hello World</div>
+        <Map />
     )
 }
 

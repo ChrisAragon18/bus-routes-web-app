@@ -1,12 +1,17 @@
 import React, { useState, useMemo, useCallback, useRef } from "react"
 import { GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api"
 import Places from "./Places"
+import CalendarEvent from "./CalendarEvent"
 
 type LatLngLiteral = google.maps.LatLngLiteral
 type MapOptions = google.maps.MapOptions
 type DirectionsResult = google.maps.DirectionsResult
 
-function Map() {
+type MapProps = {
+    onRouteSelect: (departure: string, arrival: string) => void
+}
+
+function Map({ onRouteSelect }: MapProps) {
     const [currentLocation, setCurrentLocation] = useState<LatLngLiteral | null>(null)
     const [destination, setDestination] = useState<LatLngLiteral | null>(null)
     const [directions, setDirections] = useState<DirectionsResult | null>(null)
@@ -47,6 +52,10 @@ function Map() {
 
     const handleRouteSelection = (index: number) => {
         setSelectedRouteIndex(index)
+        const selectedRoute = routes[index]
+        const departureTime = new Date(selectedRoute.legs[0].departure_time?.value).toISOString() || ""
+        const arrivalTime = new Date(selectedRoute.legs[0].arrival_time?.value).toISOString() || ""
+        onRouteSelect(departureTime, arrivalTime)
         setDirections(prevDirections => {
             if (prevDirections) {
                 return {
@@ -89,6 +98,12 @@ function Map() {
                             <div>
                                 Arrival Time: {route.legs[0].arrival_time?.text || "N/A"}
                             </div>
+                            {route.legs[0].departure_time && route.legs[0].arrival_time && (
+                                <CalendarEvent
+                                    departureTime={new Date(route.legs[0].departure_time.value).toISOString()}
+                                    arrivalTime={new Date(route.legs[0].arrival_time.value).toISOString()}
+                                />
+                            )}
                         </div>
                     ))}
                 </div>

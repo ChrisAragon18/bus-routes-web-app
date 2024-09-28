@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
-import { useLoadScript } from "@react-google-maps/api"
+import { useLoadScript, Libraries } from "@react-google-maps/api"
 
-const libraries = ["places"]
+const libraries: Libraries = ["places"]
 
 type PlacesProps = {
     setLocation: (position: google.maps.LatLngLiteral, type: "current" | "destination") => void
@@ -29,23 +29,27 @@ function Places({ setLocation }: PlacesProps) {
 
         autocompleteCurrent.addListener("place_changed", () => {
             const place = autocompleteCurrent.getPlace()
-            if (place.geometry) {
+            if (place.geometry && place.geometry.location) {
                 const location = {
                     lat: place.geometry.location.lat(),
                     lng: place.geometry.location.lng(),
                 }
                 setLocation(location, "current")
+            } else {
+                console.error("No geometry data available for the current location")
             }
         })
 
         autocompleteDestination.addListener("place_changed", () => {
             const place = autocompleteDestination.getPlace()
-            if (place.geometry) {
+            if (place.geometry && place.geometry.location) {
                 const location = {
                     lat: place.geometry.location.lat(),
                     lng: place.geometry.location.lng(),
                 }
                 setLocation(location, "destination")
+            } else {
+                console.error("No geometry data available for the destination")
             }
         })
     }, [isLoaded, setLocation])

@@ -57,18 +57,18 @@ function Places({ setLocation }: PlacesProps) {
     if (!isLoaded) return <div>Loading...</div>
 
     return (
-        <div>
+        <div className="flex flex-col space-y-2">
             <input
                 ref={currentLocationRef}
                 type="text"
                 placeholder="Enter current location"
-                style={{ width: "100%", padding: "8px", fontSize: "16px", marginBottom: "8px" }}
+                className="input input-bordered w-full max-w-xs"
             />
             <input
                 ref={destinationRef}
                 type="text"
                 placeholder="Enter destination"
-                style={{ width: "100%", padding: "8px", fontSize: "16px" }}
+                className="input input-bordered w-full max-w-xs"
             />
         </div>
     )

@@ -17,6 +17,8 @@ function Map({ onRouteSelect }: MapProps) {
     const [directions, setDirections] = useState<DirectionsResult | null>(null)
     const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([])
     const [selectedRouteIndex, setSelectedRouteIndex] = useState<number | null>(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
     const mapRef = useRef<google.maps.Map | null>(null)
     const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: -80 }), [])
     const options = useMemo<MapOptions>(() => ({
@@ -30,6 +32,9 @@ function Map({ onRouteSelect }: MapProps) {
     const fetchTransitRoutes = useCallback(() => {
         if (!currentLocation || !destination) return
 
+        setLoading(true)
+        setError(null)
+
         const directionsService = new google.maps.DirectionsService()
         directionsService.route(
             {
@@ -39,12 +44,13 @@ function Map({ onRouteSelect }: MapProps) {
                 provideRouteAlternatives: true,
             },
             (result, status) => {
+                setLoading(false)
                 if (status === google.maps.DirectionsStatus.OK && result) {
                     setRoutes(result.routes)
-                    setDirections(result) // Set the entire result, not just routes
-                    setSelectedRouteIndex(null) // Do not select any route by default
+                    setDirections(result)
+                    setSelectedRouteIndex(null)
                 } else {
-                    console.error(`Error fetching directions: ${status}`)
+                    setError(`Error fetching directions: ${status}`)
                 }
             }
         )
@@ -80,9 +86,11 @@ function Map({ onRouteSelect }: MapProps) {
                     }
                     mapRef.current?.panTo(position)
                 }} />
-                <button onClick={fetchTransitRoutes} style={{ margin: "10px", padding: "10px" }}>
+                <button onClick={fetchTransitRoutes} className="btn">
                     Find Routes
                 </button>
+                {loading && <div>Loading...</div>}
+                {error && <div>{error}</div>}
                 <div>
                     {routes.map((route, index) => (
                         <div key={index} style={{ margin: "10px 0" }}>

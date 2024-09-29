@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from "react"
+import { useState, useMemo, useCallback, useRef } from "react"
 import { GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api"
 import Places from "./Places"
 import CalendarEvent from "./CalendarEvent"
@@ -59,8 +59,8 @@ function Map({ onRouteSelect }: MapProps) {
     const handleRouteSelection = (index: number) => {
         setSelectedRouteIndex(index)
         const selectedRoute = routes[index]
-        const departureTime = new Date(selectedRoute.legs[0].departure_time?.value).toISOString() || ""
-        const arrivalTime = new Date(selectedRoute.legs[0].arrival_time?.value).toISOString() || ""
+        const departureTime = selectedRoute.legs[0].departure_time ? new Date(selectedRoute.legs[0].departure_time.value).toISOString() : ""
+        const arrivalTime = selectedRoute.legs[0].arrival_time ? new Date(selectedRoute.legs[0].arrival_time.value).toISOString() : ""
         onRouteSelect(departureTime, arrivalTime)
         setDirections(prevDirections => {
             if (prevDirections) {

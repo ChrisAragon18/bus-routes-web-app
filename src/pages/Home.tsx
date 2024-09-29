@@ -8,8 +8,12 @@ function Home() {
     })
 
     if (!isLoaded) return <div>Loading...</div>
+    const handleRouteSelect = (departure: string, arrival: string) => {
+        console.log(`Route selected from ${departure} to ${arrival}`);
+    }
+
     return (
-        <Map />
+        <Map onRouteSelect={handleRouteSelect} />
     )
 }
 

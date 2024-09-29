@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useLoadScript, Libraries } from "@react-google-maps/api"
 
 const libraries: Libraries = ["places"]

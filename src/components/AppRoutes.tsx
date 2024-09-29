@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { Route, Routes } from 'react-router-dom'
 import Home from '../pages/Home'
 import Map from './Map'
@@ -18,6 +18,8 @@ function AppRoutes() {
             <Route path="/map" element={
                 <div>
                     <h1>Bus Route</h1>
+                    <p>Departure Time: {departureTime}</p>
+                    <p>Arrival Time: {arrivalTime}</p>
                     <Map onRouteSelect={handleRouteSelection} />
                 </div>
             } />

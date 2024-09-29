@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/approutes.tsx","./src/components/calendarevent.tsx","./src/components/map.tsx","./src/components/places.tsx","./src/components/translatebutton.tsx","./src/pages/home.tsx"],"errors":true,"version":"5.6.2"}

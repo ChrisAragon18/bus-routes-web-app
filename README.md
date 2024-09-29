@@ -1,2 +1,2 @@
 # bus-routes-web-app
-A project for ShellHacks 2024
+**Link to the website**: [busroutebuddy.co](https://busroutebuddy.co/)

@@ -1,6 +1,8 @@
 import { useEffect } from "react"
-import { gapi } from "gapi-script"
-import "gapi.client.calendar"
+
+// Add this import for the gapi types
+/// <reference types="gapi.client" />
+/// <reference types="gapi.client.calendar" />
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
@@ -39,11 +41,6 @@ function CalendarEvent({ departureTime, arrivalTime }: CalendarEventProps) {
     }
 
     const createEvent = () => {
-        if (!gapi.client.calendar) {
-            console.error("Google Calendar API not loaded")
-            return
-        }
-
         const event = {
             summary: "Bus Trip",
             start: {
@@ -63,7 +60,7 @@ function CalendarEvent({ departureTime, arrivalTime }: CalendarEventProps) {
             },
         }
 
-        const request = gapi.client.calendar.events.insert({
+        const request = (gapi.client as any).calendar.events.insert({
             calendarId: "primary",
             resource: event,
         })
